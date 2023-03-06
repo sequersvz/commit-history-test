@@ -13,16 +13,30 @@ export class GithubService {
     this.api = 'https://api.github.com';
   }
 
-  private mapDataHelper(
-    httpFunction: Observable<AxiosResponse<GithubCommit[]>>,
-  ): Observable<GithubCommit[]> {
+  private mapDataHelper<T>(
+    httpFunction: Observable<AxiosResponse<T>>,
+  ): Observable<T> {
     return httpFunction.pipe(map((value) => value.data));
   }
 
-  getCommits(): Observable<GithubCommit[]> {
-    return this.mapDataHelper(
+  getCommits(page = '1', limit = '10'): Observable<GithubCommit[]> {
+    const params = new URLSearchParams([
+      ['page', page],
+      ['per_page', limit],
+    ]);
+    return this.mapDataHelper<GithubCommit[]>(
       this.httpService.get(
-        `${this.api}/repos/sequersvz/commit-history-test/commits`,
+        `${
+          this.api
+        }/repos/sequersvz/commit-history-test/commits?${params.toString()}`,
+      ),
+    );
+  }
+
+  getCommit(commitId: string): Observable<GithubCommit> {
+    return this.mapDataHelper<GithubCommit>(
+      this.httpService.get(
+        `${this.api}/repos/sequersvz/commit-history-test/commits/${commitId}`,
       ),
     );
   }
