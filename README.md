@@ -43,3 +43,17 @@ Once the install is finished, run the comman ```npm start``` on each folder to s
 ## Run with docker
 
 
+Open docker and run:
+
+```bash
+docker-compose build
+```
+
+```bash
+docker-compose up
+```
+
+wait before both application loads and go to:
+
+react app: <http://localhost:3000>
+nestjs api: <http://localhost:4000>
